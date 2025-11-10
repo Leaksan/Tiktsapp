@@ -1,0 +1,206 @@
+```html
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pont TikTok vers WhatsApp</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 10px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 50%, #fecfef 100%);
+            color: #333;
+            text-align: center;
+            box-sizing: border-box;
+        }
+        .container {
+            background: white;
+            padding: 30px 20px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            max-width: 90%;
+            width: 400px;
+            animation: fadeIn 1s ease-in-out;
+            box-sizing: border-box;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        h1 {
+            color: #e91e63;
+            margin-bottom: 20px;
+            font-size: 1.8em;
+            transition: transform 0.2s ease;
+        }
+        p {
+            margin-bottom: 30px;
+            font-size: 1em;
+            line-height: 1.5;
+        }
+        .whatsapp-btn {
+            background: #25D366;
+            color: white;
+            border: none;
+            padding: 15px 25px;
+            font-size: 1.1em;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+            width: 100%;
+            box-sizing: border-box;
+            position: relative;
+            overflow: hidden;
+        }
+        .whatsapp-btn::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            transition: width 0.6s ease, height 0.6s ease;
+        }
+        .whatsapp-btn:active::before,
+        .whatsapp-btn.touched::before {
+            width: 300px;
+            height: 300px;
+        }
+        .whatsapp-btn:hover {
+            transform: scale(1.02);
+            box-shadow: 0 5px 15px rgba(37, 211, 102, 0.4);
+        }
+        .whatsapp-btn:active,
+        .whatsapp-btn.touched {
+            transform: scale(0.98);
+            box-shadow: 0 2px 10px rgba(37, 211, 102, 0.3);
+        }
+        .tiktok-icon {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            transition: transform 0.3s ease, color 0.3s ease;
+        }
+        .whatsapp-icon::before {
+            content: "📱";
+            margin-right: 10px;
+        }
+
+        /* Media Queries pour mobile */
+        @media (max-width: 480px) {
+            body {
+                padding: 5px;
+            }
+            .container {
+                padding: 20px 15px;
+                max-width: 95%;
+                width: 100%;
+            }
+            h1 {
+                font-size: 1.5em;
+                margin-bottom: 15px;
+            }
+            p {
+                font-size: 0.95em;
+                margin-bottom: 25px;
+            }
+            .whatsapp-btn {
+                padding: 12px 20px;
+                font-size: 1em;
+            }
+            .tiktok-icon {
+                font-size: 2em;
+            }
+        }
+
+        @media (max-width: 320px) {
+            .container {
+                padding: 15px 10px;
+            }
+            h1 {
+                font-size: 1.3em;
+            }
+            p {
+                font-size: 0.9em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="tiktok-icon">🎵</div>
+        <h1>Bienvenue depuis TikTok !</h1>
+        <p>Vous voulez nous contacter ? Cliquez ci-dessous pour ouvrir WhatsApp et discuter directement. Un message prêt à envoyer !</p>
+        <a href="https://wa.me/241074756768?text=Salut%21%20Je%20viens%20de%20TikTok%20et%20je%20voudrais%20en%20savoir%20plus%20sur%20vos%20vid%C3%A9os%20!%20%F0%9F%98%8A" class="whatsapp-btn" target="_blank">
+            <span class="whatsapp-icon"></span>Contacter sur WhatsApp
+        </a>
+    </div>
+
+    <script>
+        // Animation simple au chargement
+        document.addEventListener('DOMContentLoaded', function() {
+            const btn = document.querySelector('.whatsapp-btn');
+            const icon = document.querySelector('.tiktok-icon');
+            const title = document.querySelector('h1');
+
+            // Événements tactiles pour mobile
+            btn.addEventListener('touchstart', function(e) {
+                e.preventDefault(); // Empêche le scroll lors du touch
+                this.classList.add('touched');
+                icon.style.transform = 'rotate(360deg) scale(1.1)';
+                title.style.transform = 'scale(1.05)';
+            });
+
+            btn.addEventListener('touchend', function(e) {
+                this.classList.remove('touched');
+                icon.style.transform = 'scale(1)';
+                title.style.transform = 'scale(1)';
+                // Petite vibration si supportée (Haptic Feedback)
+                if (navigator.vibrate) {
+                    navigator.vibrate(50);
+                }
+            });
+
+            // Événements pour desktop (clic/mouse)
+            btn.addEventListener('mousedown', function() {
+                this.classList.add('touched');
+            });
+
+            btn.addEventListener('mouseup', function() {
+                this.classList.remove('touched');
+            });
+
+            // Confirmer l'ouverture (optionnel, désactivé pour fluidité tactile)
+            btn.addEventListener('click', function(e) {
+                // Le lien s'ouvre directement
+            });
+
+            // Animation d'entrée pour l'icône
+            setTimeout(() => {
+                icon.style.animation = 'spin 0.6s ease-in-out';
+            }, 500);
+        });
+
+        // Ajout d'une cléframe pour la rotation
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes spin {
+                from { transform: rotate(0deg); }
+                to { transform: rotate(360deg); }
+            }
+        `;
+        document.head.appendChild(style);
+    </script>
+</body>
+</html>
+```
